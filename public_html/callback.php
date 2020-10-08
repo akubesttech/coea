@@ -1,3 +1,5 @@
+
+
 <?php
 include('admin/lib/dbcon.php'); 
 dbcon();
@@ -13,13 +15,12 @@ CURLOPT_URL => "https://api.paystack.co/transaction/verify/" . rawurlencode($ref
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_HTTPHEADER => [
     "accept: application/json",
+    //"authorization: Bearer sk_test_5a19822c308f7d12f9f64f19cecac63796ec6816",
     "authorization: Bearer ".t_gate,
     "cache-control: no-cache"
   ],
 ));
-//session_start();
-//include('admin/lib/dbcon.php'); 
-//dbcon();
+
 $response = curl_exec($curl);
 $err = curl_error($curl);
 
@@ -29,13 +30,13 @@ if($err){
 }
 
 $tranx = json_decode($response);
-//$refno1 = sha1($tranx->data->reference) ;
+
 if(!$tranx->status){
   // there was an error from the API
-
- die('API returned error: ' . $tranx->message);
+  die('API returned error: ' . $tranx->message);
 }
-
+//include('admin/lib/dbcon.php'); 
+//dbcon();
 $queryschool= mysqli_fetch_array(mysqli_query($condb,"select * from schoolsetuptd "))or die(mysqli_error($condb));
 		$schoolNe = $queryschool['SchoolName'];					  
 $pstart = "1";
@@ -51,11 +52,12 @@ if('success' == $tranx->data->status){
   // if the email matches the customer who owns the product etc
  // Visit: "<a href=''>.$urllogin."apply_b.php?view=New"."\n
   // Give value
-  $sql2_up=	mysqli_query($condb,"UPDATE fshop_tb SET fpay_status='1',fdate_paid = NOW(),fpamount = '".safee($condb,$payamount)."',dategen = NOW() WHERE ftrans_id ='".safee($condb,$refme)."' ")or die(mysqli_error($condb));
-  //echo "<h2>Thank you for making a purchase. Your file has bee sent your email.</h2>"
-  $sql_svery2=mysqli_query($condb,"SELECT * FROM fshop_tb WHERE (ftrans_id) ='".safee($condb,$refme)."'");
-  $feeinfo = mysqli_fetch_array($sql_svery2); $sname = $feeinfo['fsname'];$oname = $feeinfo['foname'];
+    $sql_svery2=mysqli_query($condb,"SELECT * FROM fshop_tb WHERE (ftrans_id) ='".safee($condb,$refme)."'");
+  $feeinfo = mysqli_fetch_array($sql_svery2); $sname = $feeinfo['fsname'];$oname = $feeinfo['foname']; $paid = $feeinfo['famount'];
   $orderPin = $feeinfo['pin'];$orderSerial = $feeinfo['serial']; $p_email = $feeinfo['femail']; $payref = $feeinfo['ftrans_id'];
+  $sql2_up=	mysqli_query($condb,"UPDATE fshop_tb SET fpay_status='1',fdate_paid = NOW(),fpamount = '".safee($condb,$paid)."',dategen = NOW() WHERE ftrans_id ='".safee($condb,$refme)."' ")or die(mysqli_error($condb));
+ //echo "<h2>Thank you for making a purchase. Your file has bee sent your email.</h2>"
+  
 /*$messagep = nl2br("Dear $sname $oname,.\n
 	The Message was Send To You From " .$schoolNe ." @ ".$_SERVER['HTTP_HOST']." dated ".date('d-m-Y').".\n
 	..................................................................\n
