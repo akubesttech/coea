@@ -6,10 +6,10 @@ define('DB_DRIVER', 'mysql');
 //define('PASSWORD', '');
 //define('DATABASE', 'dscht_db');
 
-define('SERVER', '216.198.69.150');
-define('USERNAME', 'agborsmart');
+define('SERVER', 'localhost');
+define('USERNAME', 'deltasma_agborsmart');
 define('PASSWORD', 'agborsmart_2019i#');
-define('DATABASE', 'agborsmartdb');
+define('DATABASE', 'deltasma_agborsmartdb');
 //define('t_gate', 'sk_live_0417771e13ec937a7790a69bed2ededb1cdbd97a');
 define('t_gate', 'sk_test_bbfb73db5d8a60ba1c2b40fb6a261c1e64691796');
 class Database
