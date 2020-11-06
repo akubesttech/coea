@@ -12,6 +12,9 @@ define('PASSWORD', 'agborsmart_2019i#');
 define('DATABASE', 'deltasma_agborsmartdb');
 //define('t_gate', 'sk_live_0417771e13ec937a7790a69bed2ededb1cdbd97a');
 define('t_gate', 'sk_test_bbfb73db5d8a60ba1c2b40fb6a261c1e64691796');
+//other creaditials 
+define('t_ACCTS', ''); //for school
+define('t_ACCTB', ''); // for Bisapp
 class Database
 {
 
